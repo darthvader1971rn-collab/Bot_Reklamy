@@ -1,0 +1,294 @@
+========================================================================
+   RAIL NATION - BOT DO BONUSÓW, REKLAM I POLLUXA
+   KOMPLETNA INSTRUKCJA INSTALACJI I URUCHOMIENIA (KROK PO KROKU)
+========================================================================
+
+Spis treści:
+1. Wymagania wstępne
+2. Instalacja Pythona
+3. Rozpakowanie paczki i struktura folderów
+4. Przygotowanie ekranu, przeglądarki i grafik
+5. Konfiguracja regionu bonusów (pliki CSV) + jak zmierzyć współrzędne
+6. Pierwsze uruchomienie bota
+7. Obsługa, zatrzymywanie i logi
+8. Rozwiązywanie najczęstszych problemów (FAQ)
+
+
+------------------------------------------------------------------------
+1. WYMAGANIA WSTĘPNE
+------------------------------------------------------------------------
+- System operacyjny: Windows 10 lub Windows 11.
+- Dostęp do internetu (wymagany przy pierwszym uruchomieniu do pobrania
+  bibliotek Pythona).
+- Gra Rail Nation uruchomiona w przeglądarce w języku ANGIELSKIM (EN).
+- Wyłączony AdBlock / blokada reklam dla strony gry (w przeciwnym razie
+  filmy z nagrodami i Pollux mogą się nie ładować).
+- NIE musisz instalować Tesseract-OCR ani żadnych dodatkowych programów
+  poza samym Pythonem.
+
+
+------------------------------------------------------------------------
+2. INSTALACJA PYTHONA
+------------------------------------------------------------------------
+Jeśli masz już zainstalowanego Pythona (wersja 3.10 - 3.12), możesz
+przejść od razu do punktu 3.
+
+1) Wejdź na oficjalną stronę:
+   https://www.python.org/downloads/
+2) Pobierz instalator Pythona dla systemu Windows.
+3) Uruchom pobrany plik instalacyjny.
+4) BARDZO WAŻNE: Na pierwszym ekranie instalatora, na samym dole,
+   KONIECZNIE ZAZNACZ pole:
+   [X] Add python.exe to PATH
+   (Bez zaznaczenia tej opcji plik startowy bota nie wykryje Pythona!)
+5) Kliknij "Install Now" i poczekaj na zakończenie instalacji.
+6) Po zakończeniu zamknij instalator.
+
+
+------------------------------------------------------------------------
+3. ROZPAKOWANIE PACZKI I STRUKTURA FOLDERÓW
+------------------------------------------------------------------------
+1) Rozpakuj otrzymane archiwum w prostym miejscu na dysku, np.:
+   C:\RailNation_Reklamy\
+   (Unikaj bardzo długich ścieżek oraz uruchamiania bota bezpośrednio
+   z wnętrza pliku .zip/.rar!).
+
+2) Upewnij się, że w głównym folderze znajdują się następujące pliki
+   i foldery:
+
+   RailNation_Reklamy\
+   |-- START_BOT.bat            (główny plik do uruchamiania bota)
+   |-- requirements.txt         (lista wymaganych bibliotek)
+   |-- main.py                  (okienko startowe i pętla bota)
+   |-- settings.py              (ustawienia rozdzielczości i ścieżek)
+   |-- resize.py                (opcjonalnie: narzędzie do skalowania grafik)
+   |-- modules\
+   |   |-- __init__.py          (pusty plik - NIE USUWAĆ!)
+   |   |-- video_watcher.py     (silnik zbierania bonusów i reklam)
+   |-- config_4k\               (dla monitorów o szerokości 3840 px)
+   |-- config_2k\               (dla monitorów o szerokości 2560 px)
+   |-- config_laptop\           (dla monitorów 1920 px i mniejszych)
+   |-- resources\
+       |-- img\
+           |-- en\
+               |-- <ROZDZIELCZOŚĆ>\   (np. 1920x1080, 2560x1440, 3840x2160)
+
+
+------------------------------------------------------------------------
+4. PRZYGOTOWANIE EKRANU, PRZEGLĄDARKI I GRAFIK
+------------------------------------------------------------------------
+Bot rozpoznaje elementy na ekranie na podstawie obrazków (.png),
+dlatego ustawienia wyświetlania są kluczowe:
+
+1) Język gry:
+   Ustaw język gry Rail Nation na ANGIELSKI (EN).
+
+2) Powiększenie w przeglądarce:
+   Ustaw domyślny zoom przeglądarki na 100% (skrót klawiszowy: Ctrl + 0).
+
+3) Skalowanie systemu Windows (BARDZO WAŻNE!):
+   Wejdź w: Ustawienia Windows -> System -> Ekran -> Skala.
+   Najlepiej ustawić 100%. Jeśli używasz innego skalowania (np. 125% na
+   ekranie FullHD 1920x1080), Windows zgłasza botowi inną rozdzielczość
+   logiczną (np. 1536x864) i bot będzie szukał grafik dokładnie w folderze
+   o takiej nazwie (np. resources\img\en\1536x864\).
+
+   WSKAZÓWKA: Dokładną ścieżkę, z której korzysta bot, zobaczysz w oknie
+   konsoli zaraz po uruchomieniu START_BOT.bat w linijkach:
+   [SETTINGS] Wykryto ekran: ...
+   [SETTINGS] Używany folder config: ...
+   [SETTINGS] Ścieżka grafik: ...
+
+4) Lista wymaganych plików graficznych w folderze resources\img\en\<SZERxWYS>\:
+   - Bonusy:
+     prestige.png, dollar.png, dollar_bad.png,
+     prestige_purple.png, dollar_purple.png
+   - Błędy i limity:
+     no_gold_bonus.png, bank_full.png, close_limit.png,
+     bonus_video_disabled.png, limit_wideo.png, disable_video_limit.png
+   - Reklamy, loteria i Pollux:
+     video_enabled.png, video_new.png, play_icon.png, watch_video.png,
+     redeem.png, lottery.png, lottery_png.png, close_lottery.png,
+     pollux.png, close_pollux.png
+
+5) Jeśli masz inną rozdzielczość monitora niż domyślne grafiki w paczce:
+   Możesz uruchomić dołączony skrypt resize.py (dwuklik lub z konsoli:
+   "python resize.py"), aby przeskalować obrazki (np. z 4K na FHD).
+   Jeśli mimo przeskalowania bot nie widzi jakiegoś konkretnego przycisku,
+   wytnij ten jeden element ze swojego ekranu (np. narzędziem Wycinanie
+   w Windows) i podmień go w folderze grafik pod tą samą nazwą pliku.
+
+
+------------------------------------------------------------------------
+5. KONFIGURACJA REGIONU BONUSÓW (PLIKI CSV)
+------------------------------------------------------------------------
+Bot nie skanuje całego ekranu w poszukiwaniu bonusów, tylko wyznaczony
+prostokąt, aby działał szybko i nie klikał przypadkowych elementów.
+
+1) Sprawdź, z którego folderu config korzysta Twój monitor:
+   - szerokość 3840 px       -> folder config_4k
+   - szerokość 2560 px       -> folder config_2k
+   - szerokość 1920 px i mn. -> folder config_laptop
+
+2) W odpowiednim folderze musi znajdować się plik:
+   prostokat_bonusy.csv
+
+   Format pliku CSV (rozdzielany średnikami ";"):
+   - Wiersz 1: nagłówki (np. X;Y;W;H)
+   - Wiersz 2: cztery liczby całkowite oznaczające lewy górny róg (X, Y)
+               oraz szerokość (W) i wysokość (H) prostokąta, w którym
+               pojawiają się bonusy graczy.
+
+   Przykład zawartości pliku prostokat_bonusy.csv:
+   X;Y;W;H
+   100;150;1700;800
+
+   (Obsługiwany jest także format 6-kolumnowy: X1;Y1;X2;Y2;W;H).
+
+   UWAGA: Pliki .csv edytuj ZAWSZE w zwykłym Notatniku (prawy przycisk
+   myszy -> Otwórz za pomocą -> Notatnik), a NIE w Excelu, ponieważ
+   Excel potrafi zepsuć średniki i formatowanie pliku.
+
+3) Opcjonalna tarcza wykluczeń (prostokat_wykluczenie.csv):
+   Jeśli chcesz wyznaczyć wewnątrz obszaru bonusów strefę, w którą bot
+   MA ZAKAZ klikania (np. nakładający się panel lub okienko czatu),
+   utwórz w tym samym folderze plik prostokat_wykluczenie.csv w tym
+   samym formacie. Jeśli go nie potrzebujesz, po prostu go nie twórz —
+   bot zadziała normalnie bez niego.
+
+4) JAK NAJŁATWIEJ ZMIERZYĆ WSPÓŁRZĘDNE (X, Y, W, H)?
+
+   --- SPOSÓB A: Podgląd myszki w Pythonie (Najdokładniejszy) ---
+   Działa najlepiej, bo pokazuje dokładnie takie współrzędne, jakie
+   widzi bot (uwzględnia skalowanie Windows). Użyj tego sposobu po
+   jednorazowym uruchomieniu START_BOT.bat (żeby były już biblioteki):
+
+   1. Otwórz grę w przeglądarce tak, aby było widać obszar z bonusami.
+   2. Otwórz Wiersz polecenia (klawisz Windows -> wpisz: cmd -> Enter)
+      i ustaw jego okienko gdzieś z boku, żeby nie zasłaniało gry.
+   3. Wklej poniższą komendę i naciśnij Enter:
+      python -c "import pyautogui; pyautogui.displayMousePosition()"
+   4. W oknie cmd pojawią się na żywo aktualne współrzędne kursora:
+      X: ... Y: ...
+   5. Najedź myszką na LEWY GÓRNY róg obszaru bonusów i zapisz na kartce
+      wartości X1 oraz Y1.
+   6. Najedź myszką na PRAWY DOLNY róg obszaru bonusów i zapisz wartości
+      X2 oraz Y2.
+   7. Wróć do okna cmd i naciśnij Ctrl + C, aby zatrzymać podgląd.
+
+   --- SPOSÓB B: Za pomocą programu Paint (Bez wpisywania komend) ---
+   (Działa najlepiej, gdy skalowanie ekranu w Windows wynosi 100%).
+
+   1. Otwórz grę w przeglądarce na pełnym ekranie.
+   2. Naciśnij klawisz Print Screen (PrtSc) na klawiaturze.
+   3. Otwórz systemowy program Paint i wklej zrzut ekranu (Ctrl + V).
+   4. Najedź kursorem na LEWY GÓRNY róg obszaru bonusów — w lewym dolnym
+      rogu okna Paint zobaczysz dwie liczby (np. 100, 150px). To X1 i Y1.
+   5. Najedź kursorem na PRAWY DOLNY róg obszaru bonusów — odczytaj
+      współrzędne X2 i Y2 (np. 1800, 950px).
+
+   --- JAK OBLICZYĆ W (SZEROKOŚĆ) I H (WYSOKOŚĆ) I WPISAĆ DO PLIKU? ---
+   Mając spisane punkty (X1, Y1) oraz (X2, Y2), wykonaj dwa odejmowania:
+   - X = X1
+   - Y = Y1
+   - W = X2 - X1
+   - H = Y2 - Y1
+
+   PRZYKŁAD LICZBOWY:
+   - Lewy górny róg:  X1 = 100,  Y1 = 150
+   - Prawy dolny róg: X2 = 1800, Y2 = 950
+   - Obliczenia:      W = 1800 - 100 = 1700
+                      H = 950 - 150 = 800
+
+   Otwórz prostokat_bonusy.csv w Notatniku, wpisz poniższe dwie linijki
+   i zapisz plik (Ctrl + S):
+   X;Y;W;H
+   100;150;1700;800
+
+
+------------------------------------------------------------------------
+6. PIERWSZE URUCHOMIENIE BOTA
+------------------------------------------------------------------------
+1) Otwórz grę Rail Nation w przeglądarce, zaloguj się na swój serwer
+   i zostaw widoczny główny widok gry (z oknem/panelem bonusów).
+2) W folderze bota kliknij dwukrotnie plik:
+   START_BOT.bat
+3) Przy PIERWSZYM uruchomieniu skrypt automatycznie wykryje brak
+   bibliotek i sam zainstaluje wymagane pakiety (pyautogui,
+   opencv-python, pillow). Poczekaj spokojnie, aż instalacja się
+   zakończy (może to potrwać 1-2 minuty).
+   Przy kolejnych uruchomieniach ten etap zostanie pominięty.
+4) Po chwili pojawi się czarne okno konsoli oraz małe okienko sterowania:
+   "Centrum Sterowania - Reklamy".
+5) Z rozwijanej listy wybierz serwer, na którym grasz:
+   - wybór serwera decyduje o godzinie resetu blokady po wyczerpaniu
+     dziennego limitu reklam (16:00 dla serwerów US102, 14:00 dla
+     pozostałych).
+   - ostatni wybrany serwer zapisze się automatycznie w pliku
+     last_server.json.
+6) Kliknij zielony przycisk:
+   "START (BONUSY + REKLAMY + POLLUX)"
+   (Jeśli nic nie klikniesz, bot wystartuje samoczynnie po 10 minutach).
+7) Od tego momentu nie ruszaj myszką i nie zasłaniaj okna gry innymi
+   aplikacjami — bot sam zacznie zbierać darmowe i fioletowe bonusy,
+   oglądać reklamy, odbierać nagrody oraz zamykać okna loterii i Polluxa.
+
+
+------------------------------------------------------------------------
+7. OBSŁUGA, ZATRZYMYWANIE I LOGI
+------------------------------------------------------------------------
+- Zatrzymywanie bota:
+  Kliknij w czarne okno konsoli i naciśnij Ctrl + C lub po prostu
+  zamknij okno konsoli krzyżykiem [X] w prawym górnym rogu.
+- Jak działają bany na bonusy:
+  Jeśli przy próbie odbioru bonusu pojawi się komunikat o braku złota
+  lub pełnym banku, bot automatycznie zablokuje klikanie w tę pozycję
+  na 2 godziny.
+- Jak działa limit reklam:
+  Po wyczerpaniu dziennego limitu filmów bot automatycznie przechodzi
+  w tryb zbierania wyłącznie darmowych bonusów i wykonuje okresowy ruch
+  myszką (Anti-AFK) do godziny resetu (14:00 lub 16:00).
+- Podgląd pracy i logi:
+  Wszystkie zdarzenia są wypisywane na bieżąco w konsoli oraz zapisywane
+  w pliku tekstowym bot.log w głównym folderze bota.
+
+
+------------------------------------------------------------------------
+8. ROZWIĄZYWANIE NAJCZĘSTSZYCH PROBLEMÓW (FAQ)
+------------------------------------------------------------------------
+
+PROBLEM 1: Komunikat "[BLAD] Nie wykryto Pythona w systemie!"
+ROZWIĄZANIE:
+Python nie jest zainstalowany albo podczas instalacji nie zaznaczono
+opcji "Add python.exe to PATH". Uruchom ponownie instalator Pythona,
+odinstaluj go i zainstaluj jeszcze raz, pamiętając o zaznaczeniu PATH.
+
+PROBLEM 2: Komunikat "[VIDEO] Brak regionu bonusów!"
+ROZWIĄZANIE:
+Sprawdź w pierwszych linijkach konsoli, jakiego folderu config używa bot
+(np. config_laptop). Wejdź do tego folderu i upewnij się, że istnieje
+tam plik prostokat_bonusy.csv oraz że ma poprawny format z nagłówkiem
+w 1. linii i współrzędnymi w 2. linii.
+
+PROBLEM 3: Bot działa, ale nie klika żadnych bonusów ani reklam.
+ROZWIĄZANIE:
+1. Sprawdź w konsoli linijkę "[SETTINGS] Ścieżka grafik: ..." i upewnij
+   się, że dokładnie taki folder istnieje i zawiera pliki .png.
+2. Sprawdź skalowanie ekranu w Windows (najlepiej 100%) oraz zoom
+   przeglądarki (Ctrl + 0 = 100%).
+3. Upewnij się, że gra jest w języku angielskim (EN).
+4. Sprawdź, czy współrzędne w prostokat_bonusy.csv faktycznie obejmują
+   obszar, w którym wyświetlają się ikony bonusów.
+
+PROBLEM 4: Bot otwiera reklamę, ale nie ładuje się film / nie ma nagrody.
+ROZWIĄZANIE:
+Wyłącz w przeglądarce wszelkie blokery reklam (AdBlock, uBlock Origin,
+wbudowaną tarczę Brave) dla domeny Rail Nation i odśwież stronę gry.
+
+PROBLEM 5: Błąd podczas instalacji bibliotek w START_BOT.bat.
+ROZWIĄZANIE:
+Sprawdź połączenie z internetem i upewnij się, że program antywirusowy
+lub zapora nie blokuje polecenia pip. Możesz też kliknąć prawym
+przyciskiem na START_BOT.bat i wybrać "Uruchom jako administrator".
+
+========================================================================

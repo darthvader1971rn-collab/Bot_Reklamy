@@ -1,0 +1,56 @@
+2026-11-21 12:42:48,591 [INFO] Bot uruchomiony (Serwer: US102 Grand Central | Tryb: Bonusy + Reklamy + Pollux).
+2026-11-21 12:42:48,592 [INFO] [VIDEO] --- START CYKLU (Bonusy + Reklamy + Pollux) ---
+2026-11-21 12:42:48,616 [INFO] [VIDEO] Tarcza aktywna: Wykluczam kliknięcia w zakazanym obszarze.
+2026-11-21 12:42:56,089 [INFO] [VIDEO] Klikam: video_new.png
+2026-11-21 12:42:59,513 [INFO] [VIDEO] Film 1: Start.
+2026-11-21 12:43:00,574 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:43:02,000 [INFO] [VIDEO] Czekam na watch_video.png (Max 65s)...
+2026-11-21 12:43:22,309 [INFO] [VIDEO] Wykryto: watch_video.png!
+2026-11-21 12:43:23,458 [INFO] [VIDEO] Klikam: watch_video.png
+2026-11-21 12:43:26,890 [INFO] [VIDEO] Film 2: Start.
+2026-11-21 12:43:27,935 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:43:29,383 [INFO] [VIDEO] Czekam na redeem.png (Max 65s)...
+2026-11-21 12:44:37,404 [WARNING] [VIDEO] Timeout! Nie znaleziono redeem.png.
+2026-11-21 12:44:37,404 [WARNING] [VIDEO] Nie pojawił się Redeem po 2. filmie.
+2026-11-21 12:44:43,322 [INFO] [VIDEO] Klikam: close_pollux.png
+2026-11-21 12:44:45,763 [INFO] [VIDEO] Koniec cyklu.
+2026-11-21 12:44:50,764 [INFO] [VIDEO] --- START CYKLU (Bonusy + Reklamy + Pollux) ---
+2026-11-21 12:44:50,764 [INFO] [VIDEO] Tarcza aktywna: Wykluczam kliknięcia w zakazanym obszarze.
+2026-11-21 12:44:58,242 [INFO] [VIDEO] Klikam: video_new.png
+2026-11-21 12:45:01,718 [INFO] [VIDEO] Film 1: Start.
+2026-11-21 12:45:02,756 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:45:04,175 [INFO] [VIDEO] Czekam na watch_video.png (Max 65s)...
+2026-11-21 12:45:30,301 [INFO] [VIDEO] Wykryto: watch_video.png!
+2026-11-21 12:45:31,485 [INFO] [VIDEO] Klikam: watch_video.png
+2026-11-21 12:45:34,930 [INFO] [VIDEO] Film 2: Start.
+2026-11-21 12:45:35,982 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:45:37,398 [INFO] [VIDEO] Czekam na redeem.png (Max 65s)...
+2026-11-21 12:46:45,611 [WARNING] [VIDEO] Timeout! Nie znaleziono redeem.png.
+2026-11-21 12:46:45,611 [WARNING] [VIDEO] Nie pojawił się Redeem po 2. filmie.
+2026-11-21 12:46:51,919 [INFO] [VIDEO] Klikam: close_pollux.png
+2026-11-21 12:46:54,349 [INFO] [VIDEO] Koniec cyklu.
+2026-11-21 12:46:59,350 [INFO] [VIDEO] --- START CYKLU (Bonusy + Reklamy + Pollux) ---
+2026-11-21 12:46:59,350 [INFO] [VIDEO] Tarcza aktywna: Wykluczam kliknięcia w zakazanym obszarze.
+2026-11-21 12:47:07,033 [INFO] [VIDEO] Klikam: video_new.png
+2026-11-21 12:47:10,449 [INFO] [VIDEO] Film 1: Start.
+2026-11-21 12:47:17,897 [WARNING] [VIDEO] Nie widzę 'play_icon.png'. Próbuję kliknąć w środek.
+2026-11-21 12:47:19,314 [INFO] [VIDEO] Ślepy klik w środek ekranu (Fallback).
+2026-11-21 12:47:19,315 [INFO] [VIDEO] Czekam na watch_video.png (Max 65s)...
+2026-11-21 12:48:27,949 [WARNING] [VIDEO] Timeout! Nie znaleziono watch_video.png.
+2026-11-21 12:48:29,105 [INFO] [VIDEO] Brak przycisków. Próba ślepego kliku.
+2026-11-21 12:48:30,522 [INFO] [VIDEO] Ślepy klik w środek ekranu (Fallback).
+2026-11-21 12:48:38,265 [INFO] [VIDEO] Koniec cyklu.
+2026-11-21 12:48:43,266 [INFO] [VIDEO] --- START CYKLU (Bonusy + Reklamy + Pollux) ---
+2026-11-21 12:48:43,267 [INFO] [VIDEO] Tarcza aktywna: Wykluczam kliknięcia w zakazanym obszarze.
+2026-11-21 12:48:48,322 [INFO] [VIDEO] Klikam: video_enabled.png
+2026-11-21 12:48:51,740 [INFO] [VIDEO] Film 1: Start.
+2026-11-21 12:48:52,758 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:48:54,208 [INFO] [VIDEO] Czekam na watch_video.png (Max 65s)...
+2026-11-21 12:49:14,022 [INFO] [VIDEO] Wykryto: watch_video.png!
+2026-11-21 12:49:15,192 [INFO] [VIDEO] Klikam: watch_video.png
+2026-11-21 12:49:18,610 [INFO] [VIDEO] Film 2: Start.
+2026-11-21 12:49:19,654 [INFO] [VIDEO] Klikam: play_icon.png
+2026-11-21 12:49:21,072 [INFO] [VIDEO] Czekam na redeem.png (Max 65s)...
+2026-11-21 12:49:41,174 [INFO] [VIDEO] Wykryto: redeem.png!
+2026-11-21 12:49:41,174 [INFO] [VIDEO] Odbieram nagrodę...
+2026-11-21 12:49:42,357 [INFO] [VIDEO] Klikam: redeem.png
